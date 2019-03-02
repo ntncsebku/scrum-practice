@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import Board from '../components/Board/Board';
+
 import * as actions from '../actions/auth.action';
 
 class HomePage extends Component {
@@ -8,6 +10,7 @@ class HomePage extends Component {
         return (
             <div>Homepage
                 <button onClick={this.props.logOutUser}>Logout</button>
+                <Board />
             </div>
         );
     }

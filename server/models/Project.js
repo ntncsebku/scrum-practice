@@ -25,11 +25,11 @@ const ProjectSchema = new Schema({
             default: Date.now()
           },
           author: {
-            type: mongoose.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             required: true
           },
           assign: {
-            type: [mongoose.Types.ObjectId]
+            type: Schema.Types.ObjectId
           }
         }
       ]

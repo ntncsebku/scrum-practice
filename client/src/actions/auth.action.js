@@ -20,7 +20,6 @@ export function logInUser(username, password) {
 }
 
 export function logOutUser() {
-    console.log('......');
     localStorage.clear();
     return { type: actionTypes.LOGOUT_USER };
 }

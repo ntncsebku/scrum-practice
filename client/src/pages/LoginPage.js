@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 
 import * as authActions from '../actions/auth.action';
 
+import './LoginPage.css'
+
 class LoginPage extends Component {
     state = {
         username: '',
@@ -24,15 +26,20 @@ class LoginPage extends Component {
         if (this.props.isAuthenticated) return <Redirect to='/' />
 
         return (
-            <form onSubmit={this.onFormSubmit}>
-
-                Username <br />
-                <input name="username" value={this.state.username} onChange={this.onFieldChange}/> <br />
-                Password <br />
-                <input name="password" value={this.state.password} onChange={this.onFieldChange} /> <br />
-
-                <button type="submit">Login</button>
-            </form>
+            <div class="Login">
+                <form onSubmit={this.onFormSubmit} class="form-login">
+                    <h2>Kanban</h2>
+                    <div class="form-group">
+                        <label>Username</label>
+                        <input type="email" class="form-control" placeholder="Enter username" name="username" value={this.state.username} onChange={this.onFieldChange}></input>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" name="password" value={this.state.password} onChange={this.onFieldChange}></input>
+                    </div>
+                    <button type="submit" class="btn btn-block btn-success">Login</button>
+                </form>
+            </div>
         );
     }
 }

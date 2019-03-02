@@ -27,18 +27,21 @@ class LoginPage extends Component {
 
         return (
             <div class="Login">
-                <form onSubmit={this.onFormSubmit} class="form-login">
-                    <h2>Kanban</h2>
-                    <div class="form-group">
-                        <label>Username</label>
-                        <input type="email" class="form-control" placeholder="Enter username" name="username" value={this.state.username} onChange={this.onFieldChange}></input>
-                    </div>
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" class="form-control" name="password" value={this.state.password} onChange={this.onFieldChange}></input>
-                    </div>
-                    <button type="submit" class="btn btn-block btn-success">Login</button>
-                </form>
+                <div class="layer">
+
+                    <form onSubmit={this.onFormSubmit} class="form-login">
+                        <h2>Kanban</h2>
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="email" class="form-control" name="username" value={this.state.username} onChange={this.onFieldChange}></input>
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" class="form-control" name="password" value={this.state.password} onChange={this.onFieldChange}></input>
+                        </div>
+                        <button type="submit" class="btn btn-block btn-success">Login</button>
+                    </form>
+                </div>
             </div>
         );
     }

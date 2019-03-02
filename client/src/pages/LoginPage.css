@@ -2,8 +2,15 @@
     width: 100%;
     height: 100vh;
     background-color: #ffffff;
-    background: url('../img//bg.jpg');
+    background: url('../img//bg.jpg') no-repeat center;
+    background-size: cover;
 }
+
+.Login .layer {
+    background-color: #000000a2;
+    height: 100vh;
+}
+
 .form-login {
     position: fixed;
     top: 50%;

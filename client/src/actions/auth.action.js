@@ -9,10 +9,8 @@ export function logInUser(username, password) {
             const { data: accessToken } = await Axios.get(`/api/user/login?username=${username}&password=${password}`);
             const user = { username, password, accessToken }
             storeUserData(user);
-            alert('Login successfully');
             dispatch({ type: actionTypes.LOGIN_USER_SUCCESSFUL, payload: user });
         } catch(e) {
-            alert('Login failed');
             console.log(e);
             dispatch({ type: actionTypes.LOGIN_USER_FAILED });
         }

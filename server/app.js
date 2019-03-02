@@ -64,14 +64,9 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).send(err);
 });
 
-<<<<<<< HEAD
 
 const port = process.env.PORT || '5000';
 app.set('port', port);
-=======
-const port = process.env.PORT || "3000";
-app.set("port", port);
->>>>>>> ae789ac8fbe1ac0e57a9ce2a33cfaa655d43a614
 
 const server = http.createServer(app);
 server.listen(port, () => console.log(`Running on localhost:${port}`));

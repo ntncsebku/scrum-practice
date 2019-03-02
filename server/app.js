@@ -64,8 +64,9 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500).send(err);
 });
 
-const port = process.env.PORT || "3000";
-app.set("port", port);
+
+const port = process.env.PORT || '5000';
+app.set('port', port);
 
 const server = http.createServer(app);
 server.listen(port, () => console.log(`Running on localhost:${port}`));

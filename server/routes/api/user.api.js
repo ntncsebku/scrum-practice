@@ -1,7 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 
-const { User } = require('../../models/User');
+const  User = require('../../models/User');
 const verifyToken = require('../../middlewares/verifyToken');
 
 const router = express.Router();
@@ -70,7 +70,7 @@ router.get('/login', async function (req, res, next) {
         });
     }
     
-    const token = jwt.sign({ data: username }, process.env.JWT_SECRET);
+    const token = jwt.sign({ data: username }, 'lmao');
     res.status(200).send(token);
 });
 

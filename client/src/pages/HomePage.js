@@ -8,7 +8,7 @@ import * as actions from '../actions/auth.action';
 class HomePage extends Component {
     render() {
         return (
-            <div>Homepage
+            <div>Homepage - {this.props.user.username}
                 <button onClick={this.props.logOutUser}>Logout</button>
                 <Board />
             </div>
@@ -20,4 +20,6 @@ const mapDispatchToProps = dispatch => ({
     logOutUser: () => dispatch(actions.logOutUser())
 });
 
-export default connect(null, mapDispatchToProps)(HomePage);
+const mapStateToProps = ({ auth: { user } }) => ({ user });
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

@@ -5,7 +5,7 @@ import HomgePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 
 const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => {
-    if (!!isAuthenticated) return <Redirect to='/login' />
+    if (!isAuthenticated) return <Redirect to='/login' />
     else return <Component {...rest} />
 };
 

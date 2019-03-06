@@ -19,6 +19,7 @@ class LoginPage extends Component {
     onFormSubmit = async e => {
         e.preventDefault();
 
+        console.log('submti');
         this.props.logInUser(this.state.username, this.state.password);
     }
 
@@ -33,7 +34,7 @@ class LoginPage extends Component {
                         <h2>Kanban</h2>
                         <div class="form-group">
                             <label>Username</label>
-                            <input type="email" class="form-control" name="username" value={this.state.username} onChange={this.onFieldChange}></input>
+                            <input type="text" class="form-control" name="username" value={this.state.username} onChange={this.onFieldChange}></input>
                         </div>
                         <div class="form-group">
                             <label>Password</label>

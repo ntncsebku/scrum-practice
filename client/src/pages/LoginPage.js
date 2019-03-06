@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as authActions from '../actions/auth.action';
 
-import './LoginPage.css'
+import './LoginPage.scss'
 
 class LoginPage extends Component {
     state = {
@@ -18,8 +18,6 @@ class LoginPage extends Component {
 
     onFormSubmit = async e => {
         e.preventDefault();
-
-        console.log('submti');
         this.props.logInUser(this.state.username, this.state.password);
     }
 
@@ -27,20 +25,22 @@ class LoginPage extends Component {
         if (this.props.isAuthenticated) return <Redirect to='/' />
 
         return (
-            <div class="Login">
-                <div class="layer">
-
-                    <form onSubmit={this.onFormSubmit} class="form-login">
+            <div className="Login">
+                <div className="layer">
+                    <form onSubmit={this.onFormSubmit} className="form-login">
                         <h2>Kanban</h2>
-                        <div class="form-group">
-                            <label>Username</label>
-                            <input type="text" class="form-control" name="username" value={this.state.username} onChange={this.onFieldChange}></input>
+                        <div className="form-group">
+                            <i class="fa fa-user"></i>
+                            <input type="text" placeholder="Username" className="form-control" name="username" value={this.state.username} onChange={this.onFieldChange}></input>
                         </div>
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" class="form-control" name="password" value={this.state.password} onChange={this.onFieldChange}></input>
+                        <div className="form-group">
+                            <i className="fa fa-key"></i>
+                            <input type="password" placeholder="Password" className="form-control" name="password" value={this.state.password} onChange={this.onFieldChange}></input>
                         </div>
-                        <button type="submit" class="btn btn-block btn-success">Login</button>
+                        <button type="submit" className="btn btn-block btn-success" onClick={this.onFormSubmit}>Login</button>
+                        {this.props.loginError && <div className="alert alert-danger text-center my-2">Error</div>}
+                        <hr></hr>
+                        <Link to="/sign-up" className="btn btn-block btn-outline-danger mt-3">Create a new account</Link>
                     </form>
                 </div>
             </div>
@@ -48,7 +48,7 @@ class LoginPage extends Component {
     }
 }
 
-const mapStateToProps = ({ auth: { isAuthenticated } }) => ({ isAuthenticated });
+const mapStateToProps = ({ auth: { isAuthenticated, loginError } }) => ({ isAuthenticated, loginError });
 
 const mapDispatchToProps = dispatch => ({
     logInUser: (username, password) => dispatch(authActions.logInUser(username, password))

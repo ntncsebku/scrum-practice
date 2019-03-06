@@ -25,22 +25,26 @@ const User = require("../../models/User");
 //   });
 // });
 
+
 // router.get("/logout", (req, res) => {
 //   res.status(200).send({ message: "You are logged out", data: null });
 // });
+
+
 router.post("/register", (req, res) => {
   const { username, password } = req.body;
   const newUser = new User({
     username: username,
     password: password,
-    projects: []
   });
   newUser.save((err, saved) => {
     if (err) {
       console.log(err);
+      return res.status(500).send({msg: "Error"})
     }
-    res.status(200).json({ msg: saved });
+    res.status(200).json({ msg: 'Success' });
   });
 });
+
 
 module.exports = router;

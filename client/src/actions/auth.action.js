@@ -17,6 +17,18 @@ export function logInUser(username, password) {
     }
 }
 
+export function signUp(username, password) {
+  return async function (dispatch) {
+      try {
+          await Axios.post('/api/auth/register', {username, password});
+          dispatch({ type: actionTypes.SIGNUP_SUCCESS});
+      } catch(e) {
+          console.log(e);
+          dispatch({ type: actionTypes.SIGNUP_ERROR });
+      }
+  }
+}
+
 export function logOutUser() {
     localStorage.clear();
     return { type: actionTypes.LOGOUT_USER };

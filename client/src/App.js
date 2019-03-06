@@ -8,11 +8,7 @@ import './App.css';
 class App extends Component {
     render() {
         return (
-            <div>
-                Header
-
-                <BrowserRouter isAuthenticated={this.props.isAuthenticated} />
-            </div>
+            <BrowserRouter isAuthenticated={this.props.isAuthenticated} />
         );
     }
 }

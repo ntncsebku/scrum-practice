@@ -67,7 +67,65 @@ authRouter.post('/create', (req, res) => {
       console.log(err);
       res.status(500).send({ msg: err.message });
     }
-    res.status(200).json(project);
+    User.findByIdAndUpdate(userId, {
+      $addToSet: {
+        projects: project._id
+      }
+    }).then(() => {
+      res.status(200).json(project);
+    }).catch((err) => {
+      console.log(err);
+      res.status(500).send({ msg: err.message });
+    });
+  });
+});
+
+authRouter.post('/:projectId/invite', (req, res) => {
+  const { projectId } = req.params;
+  const { memberId } = req.body;
+  const { username, userId } = req;
+  Project.findById(projectId).then((project) => {
+    if (!project) return res.status(404).send({ msg: 'Project not found' });
+    const members = project.members;
+    if (userId != project.creator && !members.find(u => u == userId)) {
+      return res.status(400).send({ msg: 'You dont have permission for this project' });
+    }
+    return Project.findByIdAndUpdate(projectId, {
+      $addToSet: {
+        members: memberId
+      }
+    }).then(project => User.findByIdAndUpdate(memberId, {
+      $addToSet: {
+        projects: projectId
+      }
+    })).then(() => {
+      res.status(200).send({ msg: 'Invite successfully' });
+    });
+  })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send({ msg: err.message });
+    });
+});
+
+// add column to a project
+authRouter.post('/:projectId/col/add', (req, res) => {
+  const { projectId } = req.params;
+  const { name } = req.body;
+  const { username, userId } = req;
+  Project.findById(projectId).then((project) => {
+    if (!project) return res.status(404).send({ msg: 'Project not found' });
+    const members = project.members;
+    if (userId != project.creator && !members.find(u => u == userId)) {
+      return res.status(400).send({ msg: 'You dont have permission for this project' });
+    }
+    project.cols.push({ name });
+    return project.save().then((project) => {
+      res.status(200).send(project);
+    });
+  }).catch((err) => {
+    console.log(err);
+    res.status(500).send({ msg: err.message });
   });
 });
 

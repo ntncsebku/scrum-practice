@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import BrowserRouter from './router';
 
-import './App.css';
+import './App.scss';
 
 class App extends Component {
   render() {

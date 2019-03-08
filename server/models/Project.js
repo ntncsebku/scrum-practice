@@ -1,4 +1,5 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+
 const Schema = mongoose.Schema;
 
 const ProjectSchema = new Schema({
@@ -14,16 +15,9 @@ const ProjectSchema = new Schema({
       },
       items: [
         {
-          note: {
-            type: String
-          },
-          due: {
-            type: Date
-          },
-          start: {
-            type: Date,
-            default: Date.now()
-          },
+          note: String,
+          start: Date,
+          due: Date,
           author: {
             type: Schema.Types.ObjectId,
             required: true
@@ -34,7 +28,18 @@ const ProjectSchema = new Schema({
         }
       ]
     }
-  ]
+  ],
+  creator: Schema.Types.ObjectId,
+  members: [{
+    type: Schema.Types.ObjectId
+  }]
+}, {
+  timestamps: {
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  }
 });
 
-module.exports = Project = mongoose.model("Project", ProjectSchema);
+const Project = mongoose.model('Project', ProjectSchema);
+
+module.exports = Project;

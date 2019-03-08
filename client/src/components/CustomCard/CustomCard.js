@@ -1,5 +1,7 @@
 import React from 'react';
 
+import './CustomCard.scss';
+
 const CustomCard = props => (
   <div>
     <header

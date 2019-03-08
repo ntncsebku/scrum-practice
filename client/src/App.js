@@ -6,11 +6,11 @@ import BrowserRouter from './router';
 import './App.css';
 
 class App extends Component {
-    render() {
-        return (
-            <BrowserRouter isAuthenticated={this.props.isAuthenticated} />
-        );
-    }
+  render() {
+    return (
+      <BrowserRouter isAuthenticated={this.props.isAuthenticated} />
+    );
+  }
 }
 
 const mapStateToProps = ({ auth: { isAuthenticated } }) => ({ isAuthenticated });

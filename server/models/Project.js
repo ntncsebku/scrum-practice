@@ -1,20 +1,33 @@
 const mongoose = require('mongoose');
+const shortid = require('shortid');
 
 const Schema = mongoose.Schema;
 
 const ProjectSchema = new Schema({
+  code: {
+    type: String,
+    default: shortid.generate
+  },
   name: {
     type: String,
     required: true
   },
   cols: [
     {
+      _id: {
+        type: String,
+        default: shortid.generate
+      },
       name: {
         type: String,
         required: true
       },
       items: [
         {
+          _id: {
+            type: String,
+            default: shortid.generate
+          },
           note: String,
           start: Date,
           due: Date,

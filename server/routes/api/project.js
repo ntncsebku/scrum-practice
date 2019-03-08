@@ -129,5 +129,31 @@ authRouter.post('/:projectId/col/add', (req, res) => {
   });
 });
 
+// add item to a column in a project
+authRouter.post('/:projectId/col/:colId/item/add', (req, res) => {
+  const { projectId, colId } = req.params;
+  const { note, start, due } = req.body;
+  const { username, userId } = req;
+  Project.findById(projectId).then((project) => {
+    if (!project) return res.status(404).send({ msg: 'Project not found' });
+    const members = project.members;
+    if (userId != project.creator && !members.find(u => u == userId)) {
+      return res.status(400).send({ msg: 'You dont have permission for this project' });
+    }
+    const colIdx = project.cols.findIndex(u => u._id == colId);
+    if (colId == -1) return res.status(400).send({ msg: 'Column is not exist' });
+    project.cols[colIdx].items.push({
+      note, start, due,
+      author: userId
+    });
+    return project.save().then(() => {
+      res.status(200).send({ msg: 'Add item successfully' });
+    });
+  }).catch((err) => {
+    console.log(err);
+    res.status(500).send({ msg: err.message });
+  });
+});
+
 
 module.exports = router;

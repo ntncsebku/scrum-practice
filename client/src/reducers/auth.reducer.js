@@ -3,9 +3,7 @@ import { loadUserData } from '../utils/localStorage';
 
 const initialState = {
   isAuthenticated: Boolean(loadUserData()),
-  user: loadUserData(),
-  signUpError: false,
-  loginError: false
+  user: loadUserData()
 };
 
 export default function authReducer(state = initialState, action) {
@@ -18,12 +16,6 @@ export default function authReducer(state = initialState, action) {
 
     case actionTypes.LOGOUT_USER:
       return { ...state, isAuthenticated: false, user: undefined };
-
-    case actionTypes.SIGNUP_SUCCESS:
-      return { ...state, isAuthenticated: false, signUpSuccess: true };
-
-    case actionTypes.SIGNUP_ERROR:
-      return { ...state, isAuthenticated: false, signUpError: true };
 
     default:
       return initialState;

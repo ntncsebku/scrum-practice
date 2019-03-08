@@ -15,7 +15,10 @@ router.post('/register', (req, res) => {
     return res.status(422).send({ msg: err.message });
   }
 
-  const user = new User({ username, password });
+  let user = User.findOne({ username });
+  if (user) return res.status(400).send({ msg: 'Username has been used' });
+
+  user = new User({ username, password });
   user.save((err, user) => {
     if (err) {
       console.log(err);

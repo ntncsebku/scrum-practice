@@ -33,10 +33,9 @@ class Board extends Component {
 
   render() {
     return (
-      <div>
+      <>
         <TrelloBoard data={this.state.data} editable draggable onDataChange={data => this.setState({ data })} />
-        <button type="button" className="btn btn-warning" onClick={() => console.log(this.state.data)}>Log</button>
-      </div>
+      </>
     );
   }
 }

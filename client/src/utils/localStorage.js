@@ -9,6 +9,11 @@ export function loadUserData() {
   }
 }
 
-export function storeUserData(userData) {
-  localStorage.setItem('user', JSON.stringify(userData));
+export function loadAuthToken() {
+  return localStorage.getItem('token');
+}
+
+export function storeUserData({ user, token }) {
+  localStorage.setItem('user', JSON.stringify(user));
+  localStorage.setItem('token', token);
 }

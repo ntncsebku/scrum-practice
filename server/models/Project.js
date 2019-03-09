@@ -44,10 +44,14 @@ const ProjectSchema = new Schema(
         ]
       }
     ],
-    creator: Schema.Types.ObjectId,
+    creator: {
+      type: Schema.Types.ObjectId,
+      ref: 'User'
+    },
     members: [
       {
-        type: Schema.Types.ObjectId
+        type: Schema.Types.ObjectId,
+        ref: 'User'
       }
     ]
   },

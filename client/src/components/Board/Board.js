@@ -21,7 +21,7 @@ class Board extends Component {
 
   componentWillMount() {
     fetchProject({ projectId: this.state.projectId }).then((project) => {
-      const { name, code, cols } = project;
+      const { name, code, cols, creator, members } = project;
       const data = {
         name, code,
         lanes: cols.map(c => ({

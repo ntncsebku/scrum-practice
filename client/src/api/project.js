@@ -17,7 +17,9 @@ export function fetchProject({ projectId }) {
 
 
 export function invite({ projectId, username }) {
-  return axios.get(`/api/project/m/${projectId}/invite/${username}`, {
+  return axios.post(`/api/project/m/${projectId}/invite`, {
+    membername: username
+  }, {
     headers: {
       authorization: loadAuthToken()
     }

@@ -49,14 +49,14 @@ authRouter.get('/all', (req, res) => {
 // Get project data
 router.get('/:projectId', (req, res) => {
   const { projectId } = req.params;
-  Project.findById(projectId, (err, project) => {
-    if (err) {
-      console.log(err);
-      res.status(50).send({ msg: err.message });
-    }
+  Project.findById(projectId).populate('members').populate('creator').then((project) => {
     if (!project) res.status(404).send({ msg: 'Project not found' });
     res.status(200).json(project);
-  });
+  })
+    .catch((err) => {
+      console.log(err);
+      res.status(50).send({ msg: err.message });
+    });
 });
 
 // New project
@@ -95,7 +95,7 @@ authRouter.post('/:projectId/invite', async (req, res) => {
 
   let memberId = 0;
   await User.find({ username: membername })
-    .then(user => (memberId = user[0]._id))
+    .then((user) => { memberId = user[0]._id; })
     .catch(err => console.log(err));
 
   Project.findById(projectId)

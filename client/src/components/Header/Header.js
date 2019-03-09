@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Navbar, Nav, Form, FormControl, Button, Modal } from 'react-bootstrap';
 
 import * as actions from '../../actions/auth.action';
-import { invite } from '../../api/project';
+import { invite, fetchProject } from '../../api/project';
 
 class Header extends Component {
 
@@ -12,9 +12,21 @@ class Header extends Component {
     super(props);
 
     this.state = {
+      projectId: '5c81e5bab241be5fed6704a8',
       showInvite: false,
-      memberName: ''
+      memberName: '',
+      members: []
     };
+  }
+
+
+  componentWillMount() {
+    fetchProject({ projectId: this.state.projectId }).then((project) => {
+      const { name, code, cols, creator, members } = project;
+      console.log(members);
+
+      this.setState({ members: [...members, creator] });
+    }).catch(err => console.log(err.response.data));
   }
 
   handleInvite = () => {
@@ -30,6 +42,7 @@ class Header extends Component {
       this.props.logOutUser();
     }
   }
+
 
   handleInviteMember = () => {
     invite({ projectId: this.state.projectId, username: this.state.memberName }).then(() => {
@@ -49,7 +62,7 @@ class Header extends Component {
           </Nav>
           <Nav className="ml-3"><span>{this.props.username }</span></Nav>
           <Form inline>
-            <Button className="ml-2" variant="outline-primary" onClick={() => this.handleInvite()}>Invite</Button>
+            <Button className="ml-2" variant="outline-primary" onClick={() => this.handleInvite()}>Members</Button>
             <Button className="ml-2" variant="outline-danger" onClick={this.handleLogout}>Logout</Button>
           </Form>
         </Navbar>
@@ -65,6 +78,12 @@ class Header extends Component {
                 <Form.Control className="ml-4" type="text" placeholder="Enter username" onChange={ev => this.setState({ memberName: ev.target.value })} />
               </Form.Group>
             </Form>
+            <h3>Members</h3>
+            <div>
+              {this.state.members.map(u => (
+                <div key={u.username}>{u.username}</div>
+              ))}
+            </div>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleCloseInvite}>

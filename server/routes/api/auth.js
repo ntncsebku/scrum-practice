@@ -32,7 +32,9 @@ router.post('/login', async (req, res) => {
   const { username, password } = req.body;
   try {
     if (!username || username == '') throw new Error('Username is not provided');
+
     if (!password || password == '') throw new Error('Password is not provided');
+
   } catch (err) {
     return res.status(422).send({ msg: err.message });
   }
@@ -45,13 +47,16 @@ router.post('/login', async (req, res) => {
 
   user.password = undefined;
 
-  const token = jwt.sign({ data: { username, userId: user._id.toString() } }, config.secretKey, (err, token) => {
-    res.status(200).send({
-      token,
-      user
-    });
-  });
+  const token = jwt.sign(
+    { data: { username, userId: user._id.toString() } },
+    config.secretKey,
+    (err, token) => {
+      res.status(200).send({
+        token,
+        user
+      });
+    }
+  );
 });
-
 
 module.exports = router;

@@ -22,7 +22,7 @@ const CustomCard = props => {
           <i>{props.body}</i>
         </div>
         <div style={{marginTop: 10, textAlign: 'center', color: props.cardColor, fontSize: 15, fontWeight: 'bold'}}>
-          {props.escalationText}
+          {propsi.escalatonText}
         </div>
       </div>
     </div>

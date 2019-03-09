@@ -166,7 +166,10 @@ authRouter.delete('/:projectId/col/:colId/item/:itemId', (req, res) => {
     const colIdx = project.cols.findIndex(u => u._id == colId);
     if (colId == -1) return res.status(400).send({ msg: 'Column is not exist' });
 
+    console.log(itemId);
+    console.log(project.cols[colIdx].items.length);
     project.cols[colIdx].items = project.cols[colIdx].items.filter(item => item._id != itemId);
+    console.log(project.cols[colIdx].items.length);
     project.save().then(() => {
       res.status(200).send('Success');
     }).catch((err) => {
@@ -176,9 +179,9 @@ authRouter.delete('/:projectId/col/:colId/item/:itemId', (req, res) => {
 });
 
 // add item to a column in a project
-authRouter.post('/:projectId/col/:colId/item/:itemId', (req, res) => {
+authRouter.post('/:projectId/col/:colId/item/add', (req, res) => {
   const { projectId, colId } = req.params;
-  const { title, note, start, due } = req.body;
+  const { title, note, start, due, id } = req.body;
   const { username, userId } = req;
   Project.findById(projectId)
     .then((project) => {
@@ -196,8 +199,10 @@ authRouter.post('/:projectId/col/:colId/item/:itemId', (req, res) => {
         note,
         start,
         due,
-        author: userId
+        author: userId,
+        _id: id
       });
+      console.log(project._id);
       return project.save().then(() => {
         res.status(200).send({ msg: 'Add item successfully' });
       });

@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const shortid = require("shortid");
+const mongoose = require('mongoose');
+const shortid = require('shortid');
 
 const Schema = mongoose.Schema;
 
@@ -53,12 +53,12 @@ const ProjectSchema = new Schema(
   },
   {
     timestamps: {
-      createdAt: "createdAt",
-      updatedAt: "updatedAt"
+      createdAt: 'createdAt',
+      updatedAt: 'updatedAt'
     }
   }
 );
 
-const Project = mongoose.model("Project", ProjectSchema);
+const Project = mongoose.model('Project', ProjectSchema);
 
 module.exports = Project;

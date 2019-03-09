@@ -4,8 +4,7 @@ import TrelloBoard from 'react-trello';
 import axios from 'axios';
 
 import './Board.scss';
-
-const projectId = '5c832598d6b43c6cd9f73288';
+import { addItemToProject, fetchProject } from '../../api/project';
 
 class Board extends Component {
 
@@ -13,23 +12,41 @@ class Board extends Component {
     super(props);
 
     this.state = {
+      projectId: '5c81e5bab241be5fed6704a8',
       data: {
         lanes: []
       }
     };
   }
 
-  componentDidMount = async () => {
-    const { data } = await axios.get(`/api/project/${projectId}`);
+  componentWillMount() {
+    fetchProject({ projectId: this.state.projectId }).then((project) => {
+      const { name, code, cols } = project;
+      const data = {
+        name, code,
+        lanes: cols.map(c => ({
+          id: c._id,
+          title: c.name,
+          cards: c.items.map(i => ({
+            id: i._id,
+            title: i.title,
+            description: i.note
+          }))
+        }))
+      };
 
-    console.log(data);
+      this.setState({ data });
+    }).catch(err => console.log(err.response.data));
+  }
 
-    const tempLanes = data.cols;
-    const tempData = {};
-    tempData.data = {};
-    tempData.data.lanes = tempLanes;
-    console.log('>>', tempData);
-    this.setState({ data: tempData });
+  onCardAdd = (card, landId) => {
+    // console.log(card);
+    // console.log(landId);
+    const { title, description, id, label } = card;
+
+    addItemToProject({ projectId: this.state.projectId, colId: landId, title, description }).then(() => {
+      console.log('OK');
+    }).catch(err => alert(err.response.data));
   }
 
   onLaneAdd = (params) => {
@@ -39,7 +56,7 @@ class Board extends Component {
       return { data: tempData };
     });
 
-    axios.post(`/api/project/m/${projectId}/col/add`, {
+    axios.post(`/api/project/m/${this.state.projectId}/col/add`, {
       name: params.title
     }, {
       headers: {
@@ -51,7 +68,7 @@ class Board extends Component {
   render() {
     return (
       <>
-        <TrelloBoard data={this.state.data} editable draggable onDataChange={data => this.setState({ data })} canAddLanes onLaneAdd={this.onLaneAdd} />
+        <TrelloBoard data={this.state.data} editable draggable onDataChange={data => this.setState({ data })} onCardAdd={this.onCardAdd} canAddLanes onLaneAdd={this.onLaneAdd} />
       </>
     );
   }

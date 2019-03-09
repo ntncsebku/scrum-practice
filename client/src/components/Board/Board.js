@@ -21,7 +21,7 @@ class Board extends Component {
 
   componentWillMount() {
     fetchProject({ projectId: this.state.projectId }).then((project) => {
-      const { name, code, cols, creator, members } = project;
+      const { name, code, cols } = project;
       const data = {
         name, code,
         lanes: cols.map(c => ({
@@ -44,9 +44,18 @@ class Board extends Component {
     // console.log(landId);
     const { title, description, id, label } = card;
 
-    addItemToProject({ projectId: this.state.projectId, colId: landId, title, description }).then(() => {
+    addItemToProject({ projectId: this.state.projectId, colId: landId, title, description, id }).then(() => {
       console.log('OK');
     }).catch(err => alert(err.response.data));
+  }
+
+  onCardDelete = (cardId, laneId) => {
+    console.log(cardId, laneId);
+    axios.delete(`/api/project/m/${this.state.projectId}/col/${laneId}/item/${cardId}`, {
+      headers: {
+        'Authorization': localStorage.getItem('token')
+      }
+    });
   }
 
   onLaneAdd = (params) => {
@@ -68,7 +77,15 @@ class Board extends Component {
   render() {
     return (
       <>
-        <TrelloBoard data={this.state.data} editable draggable onDataChange={data => this.setState({ data })} onCardAdd={this.onCardAdd} canAddLanes onLaneAdd={this.onLaneAdd} />
+        <TrelloBoard
+          data={this.state.data}
+          editable draggable
+          onCardDelete={this.onCardDelete}
+          onDataChange={data => this.setState({ data })}
+          onCardAdd={this.onCardAdd}
+          canAddLanes
+          onLaneAdd={this.onLaneAdd}
+        />
       </>
     );
   }

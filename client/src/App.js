@@ -3,18 +3,14 @@ import { connect } from 'react-redux';
 
 import BrowserRouter from './router';
 
-import './App.css';
+import './App.scss';
 
 class App extends Component {
-    render() {
-        return (
-            <div>
-                Header
-
-                <BrowserRouter isAuthenticated={this.props.isAuthenticated} />
-            </div>
-        );
-    }
+  render() {
+    return (
+      <BrowserRouter isAuthenticated={this.props.isAuthenticated} />
+    );
+  }
 }
 
 const mapStateToProps = ({ auth: { isAuthenticated } }) => ({ isAuthenticated });

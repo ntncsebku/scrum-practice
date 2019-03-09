@@ -4,23 +4,21 @@ import * as actionTypes from './actionTypes';
 import { loadUserData, storeUserData } from '../utils/localStorage';
 
 export function logInUser(username, password) {
-    return async function (dispatch) {
-        try {
-            const { data: accessToken } = await Axios.get(`/api/user/login?username=${username}&password=${password}`);
-            const user = { username, password, accessToken }
-            storeUserData(user);
-            alert('Login successfully');
-            dispatch({ type: actionTypes.LOGIN_USER_SUCCESSFUL, payload: user });
-        } catch(e) {
-            alert('Login failed');
-            console.log(e);
-            dispatch({ type: actionTypes.LOGIN_USER_FAILED });
-        }
+  return async function (dispatch) {
+    try {
+      const res = await Axios.post('/api/auth/login', { username, password });
+      const data = res.data;
+      const { user, token } = data;
+      storeUserData({ user, token });
+      dispatch({ type: actionTypes.LOGIN_USER_SUCCESSFUL, payload: user });
+    } catch (e) {
+      alert('Username or password is wrong');
+      dispatch({ type: actionTypes.LOGIN_USER_FAILED });
     }
+  };
 }
 
 export function logOutUser() {
-    console.log('......');
-    localStorage.clear();
-    return { type: actionTypes.LOGOUT_USER };
+  localStorage.clear();
+  return { type: actionTypes.LOGOUT_USER };
 }

@@ -3,7 +3,7 @@ import { loadAuthToken } from '../utils/localStorage';
 
 
 export function addItemToProject({ projectId, colId, title, description, id }) {
-  return axios.post(`/api/project/m/${projectId}/col/${colId}/item/add/`, { note: description, title }, {
+  return axios.post(`/api/project/m/${projectId}/col/${colId}/item/add/`, { note: description, title, id }, {
     headers: {
       authorization: loadAuthToken()
     }

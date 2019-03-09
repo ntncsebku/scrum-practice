@@ -88,10 +88,16 @@ authRouter.post("/create", (req, res) => {
 });
 
 // add member to project
-authRouter.post("/:projectId/invite", (req, res) => {
+authRouter.post("/:projectId/invite", async (req, res) => {
   const { projectId } = req.params;
-  const { memberId } = req.body;
+  const { membername } = req.body;
   const { username, userId } = req;
+
+  let memberId = 0;
+  await User.find({ username: membername })
+    .then(user => (memberId = user[0]._id))
+    .catch(err => console.log(err));
+
   Project.findById(projectId)
     .then(project => {
       if (!project) return res.status(404).send({ msg: "Project not found" });
@@ -240,5 +246,39 @@ authRouter.post("/:projectId/col/:colId/item/:itemId/modify", (req, res) => {
       res.status(500).send({ msg: err.message });
     });
 });
+
+// add member
+// authRouter.get("/:projectId/invite/:username", (req, res) => {
+//   const { projectId, username } = req.params;
+//   const { _, userId } = req;
+//   Project.findById(projectId)
+//     .then(project => {
+//       if (!project) return res.status(404).send({ msg: "Project not found" });
+//       const members = project.members;
+//       if (userId != project.creator && !members.find(u => u == userId)) {
+//         return res
+//           .status(400)
+//           .send({ msg: "You dont have permission for this project" });
+//       }
+//       User.find({ username: username })
+//         .then(user => {
+//           if (user[0]) {
+//             project.members.push(user[0]._id);
+//             return project
+//               .save()
+//               .then(project => res.status(200).send({ msg: "Invite success" }));
+//           } else
+//             return res
+//               .status(404)
+//               .send({ msg: "User not found." })
+//               .end();
+//         })
+//         .catch(err => res.status(500).send({ msg: err.message }));
+//     })
+//     .catch(err => {
+//       console.log(err);
+//       res.status(500).send({ msg: err.message });
+//     });
+// });
 
 module.exports = router;

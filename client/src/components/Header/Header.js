@@ -47,6 +47,7 @@ class Header extends Component {
           <Nav className="mr-auto">
             <Nav.Link href="#projects">Projects</Nav.Link>
           </Nav>
+          <Nav className="ml-3"><span>{this.props.username }</span></Nav>
           <Form inline>
             <Button className="ml-2" variant="outline-primary" onClick={() => this.handleInvite()}>Invite</Button>
             <Button className="ml-2" variant="outline-danger" onClick={this.handleLogout}>Logout</Button>
@@ -83,4 +84,6 @@ const mapDispatchToProps = dispatch => ({
   logOutUser: () => dispatch(actions.logOutUser())
 });
 
-export default connect(null, mapDispatchToProps)(Header);
+const mapStateToProps = ({ auth: { user } }) => ({ username: user.username });
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

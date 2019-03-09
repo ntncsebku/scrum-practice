@@ -12,7 +12,7 @@ export function logInUser(username, password) {
       storeUserData({ user, token });
       dispatch({ type: actionTypes.LOGIN_USER_SUCCESSFUL, payload: user });
     } catch (e) {
-      console.log(e);
+      alert('Username or password is wrong');
       dispatch({ type: actionTypes.LOGIN_USER_FAILED });
     }
   };

@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import TrelloBoard from 'react-trello';
 
+import axios from 'axios';
+
 import './Board.scss';
 import { addItemToProject, fetchProject } from '../../api/project';
 
@@ -12,23 +14,7 @@ class Board extends Component {
     this.state = {
       projectId: '5c81e5bab241be5fed6704a8',
       data: {
-        lanes: [
-          {
-            id: 'lane1',
-            title: 'Planned Tasks',
-            label: '2/2',
-            cards: [
-              { id: 'Card1', title: 'Write Blog', description: 'Can AI make memes', label: '30 mins' },
-              { id: 'Card2', title: 'Pay Rent', description: 'Transfer via NEFT', label: '5 mins', metadata: { sha: 'be312a1' } }
-            ]
-          },
-          {
-            id: 'lane2',
-            title: 'Completed',
-            label: '0/0',
-            cards: []
-          }
-        ]
+        lanes: []
       }
     };
   }
@@ -63,10 +49,26 @@ class Board extends Component {
     }).catch(err => alert(err.response.data));
   }
 
+  onLaneAdd = (params) => {
+    this.setState((prevState) => {
+      const tempData = { ...prevState.data };
+      tempData.lanes = prevState.data.lanes.concat({ id: params.title, title: params.title, cards: [] });
+      return { data: tempData };
+    });
+
+    axios.post(`/api/project/m/${this.state.projectId}/col/add`, {
+      name: params.title
+    }, {
+      headers: {
+        'Authorization': localStorage.getItem('token')
+      }
+    });
+  }
+
   render() {
     return (
       <>
-        <TrelloBoard data={this.state.data} editable draggable onCardAdd={this.onCardAdd} onDataChange={data => this.setState({ data })} />
+        <TrelloBoard data={this.state.data} editable draggable onDataChange={data => this.setState({ data })} onCardAdd={this.onCardAdd} canAddLanes onLaneAdd={this.onLaneAdd} />
       </>
     );
   }

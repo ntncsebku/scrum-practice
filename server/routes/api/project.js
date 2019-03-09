@@ -152,8 +152,31 @@ authRouter.post('/:projectId/col/add', (req, res) => {
     });
 });
 
+authRouter.delete('/:projectId/col/:colId/item/:itemId', (req, res) => {
+  const { projectId, colId, itemId } = req.params;
+  const { username, userId } = req;
+  Project.findById(projectId).then((project) => {
+    if (!project) return res.status(404).send({ msg: 'Project not found' });
+    const members = project.members;
+    if (userId != project.creator && !members.find(u => u == userId)) {
+      return res
+        .status(400)
+        .send({ msg: 'You dont have permission for this project' });
+    }
+    const colIdx = project.cols.findIndex(u => u._id == colId);
+    if (colId == -1) return res.status(400).send({ msg: 'Column is not exist' });
+
+    project.cols[colIdx].items = project.cols[colIdx].items.filter(item => item._id != itemId);
+    project.save().then(() => {
+      res.status(200).send('Success');
+    }).catch((err) => {
+      res.status(404).send('Error');
+    });
+  });
+});
+
 // add item to a column in a project
-authRouter.post('/:projectId/col/:colId/item/add', (req, res) => {
+authRouter.post('/:projectId/col/:colId/item/:itemId', (req, res) => {
   const { projectId, colId } = req.params;
   const { title, note, start, due } = req.body;
   const { username, userId } = req;

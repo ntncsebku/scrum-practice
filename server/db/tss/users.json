@@ -1,2 +1,0 @@
-{ "_id" : { "$oid" : "5c81e55032ea945fb3801bb2" }, "projects" : [ { "$oid" : "5c81e5bab241be5fed6704a8" } ], "username" : "user101", "password" : "101", "createdAt" : { "$date" : "2019-03-08T10:45:20.619+0700" }, "updatedAt" : { "$date" : "2019-03-08T10:47:06.916+0700" }, "__v" : 0 }
-{ "_id" : { "$oid" : "5c81e55332ea945fb3801bb3" }, "projects" : [ { "$oid" : "5c81e5bab241be5fed6704a8" } ], "username" : "user102", "password" : "102", "createdAt" : { "$date" : "2019-03-08T10:45:23.648+0700" }, "updatedAt" : { "$date" : "2019-03-08T10:52:27.046+0700" }, "__v" : 0 }

@@ -12,7 +12,7 @@ class Board extends Component {
     super(props);
 
     this.state = {
-      projectId: '5c81e5bab241be5fed6704a8',
+      projectId: '5c8375f2da6d243d595242c5',
       data: {
         lanes: []
       },

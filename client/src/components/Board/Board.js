@@ -15,6 +15,12 @@ class Board extends Component {
       projectId: '5c81e5bab241be5fed6704a8',
       data: {
         lanes: []
+      },
+      pbl: {
+        lanes: []
+      },
+      sbl: {
+        lanes: []
       }
     };
   }
@@ -32,10 +38,33 @@ class Board extends Component {
             title: i.title,
             description: i.note
           }))
-        }))
+        })).slice(2)
       };
-
-      this.setState({ data });
+      const pbl = {
+        name, code,
+        lanes: cols.map(c => ({
+          id: c._id,
+          title: c.name,
+          cards: c.items.map(i => ({
+            id: i._id,
+            title: i.title,
+            description: i.note
+          }))
+        })).slice(0, 1)
+      };
+      const sbl = {
+        name, code,
+        lanes: cols.map(c => ({
+          id: c._id,
+          title: c.name,
+          cards: c.items.map(i => ({
+            id: i._id,
+            title: i.title,
+            description: i.note
+          }))
+        })).slice(1, 2)
+      };
+      this.setState({ data, pbl, sbl });
     }).catch(err => console.log(err.response.data));
   }
 
@@ -76,17 +105,44 @@ class Board extends Component {
 
   render() {
     return (
-      <>
-        <TrelloBoard
-          data={this.state.data}
-          editable draggable
-          onCardDelete={this.onCardDelete}
-          onDataChange={data => this.setState({ data })}
-          onCardAdd={this.onCardAdd}
-          canAddLanes
-          onLaneAdd={this.onLaneAdd}
-        />
-      </>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-3">
+            <h4 className="mt-2">Product Backlog</h4>
+            <TrelloBoard
+              data={this.state.pbl}
+              editable draggable
+              onCardDelete={this.onCardDelete}
+              onDataChange={data => this.setState({ pbl: data })}
+              onCardAdd={this.onCardAdd}
+              style={{ backgroundColor: 'green' }}
+            />
+          </div>
+          <div className="col-3 ">
+            <h4 className="mt-2">Sprint Backlog</h4>
+            <TrelloBoard
+              data={this.state.sbl}
+              editable draggable
+              onCardDelete={this.onCardDelete}
+              onDataChange={data => this.setState({ sbl: data })}
+              onCardAdd={this.onCardAdd}
+              style={{ backgroundColor: '#176075', padding: '0px !important', margin: '0px !important' }}
+            />
+          </div>
+          <div className="col-6">
+            <h4 className="mt-2">Kanban Board</h4>
+            <TrelloBoard
+              data={this.state.data}
+              editable draggable
+              onCardDelete={this.onCardDelete}
+              onDataChange={data => this.setState({ data })}
+              onCardAdd={this.onCardAdd}
+              canAddLanes
+              onLaneAdd={this.onLaneAdd}
+            />
+          </div>
+        </div>
+      </div>
     );
   }
 }

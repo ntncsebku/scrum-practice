@@ -193,6 +193,7 @@ authRouter.post('/:projectId/col/:colId/modify', (req, res) => {
   Project.findById(projectId)
     .then((project) => {
       if (!project) return res.status(404).send({ msg: 'Project not found' });
+      const members = project.members;
       if (userId != project.creator && !members.find(u => u == userId)) {
         return res
           .status(400)
@@ -215,9 +216,11 @@ authRouter.post('/:projectId/col/:colId/modify', (req, res) => {
 authRouter.post('/:projectId/col/:colId/item/:itemId/modify', (req, res) => {
   const { projectId, colId, itemId } = req.params;
   const { title, note, due, assign } = req.body;
+  const { username, userId } = req;
   Project.findById(projectId)
     .then((project) => {
       if (!project) return res.status(404).send({ msg: 'Project not found' });
+      const members = project.members;
       if (userId != project.creator && !members.find(u => u == userId)) {
         return res
           .status(400)

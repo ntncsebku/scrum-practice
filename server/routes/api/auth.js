@@ -6,7 +6,7 @@ const config = require('../../config');
 
 const router = express.Router();
 
-router.post('/register', (req, res) => {
+router.post('/register', async (req, res) => {
   const { username, password } = req.body;
   try {
     if (!username || username == '') throw new Error('Username is not provided');
@@ -15,7 +15,7 @@ router.post('/register', (req, res) => {
     return res.status(422).send({ msg: err.message });
   }
 
-  let user = User.findOne({ username });
+  let user = await User.findOne({ username });
   if (user) return res.status(400).send({ msg: 'Username has been used' });
 
   user = new User({ username, password });

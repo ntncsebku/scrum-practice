@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Navbar, Nav, Form, FormControl, Button, Modal } from 'react-bootstrap';
 
 import * as actions from '../../actions/auth.action';
+import { invite } from '../../api/project';
 
 class Header extends Component {
 
@@ -11,7 +12,8 @@ class Header extends Component {
     super(props);
 
     this.state = {
-      showInvite: false
+      showInvite: false,
+      memberName: ''
     };
   }
 
@@ -27,6 +29,14 @@ class Header extends Component {
     if (window.confirm('Do you want to logout?')) {
       this.props.logOutUser();
     }
+  }
+
+  handleInviteMember = () => {
+    invite({ projectId: this.state.projectId, username: this.state.memberName }).then(() => {
+      console.log('OK');
+      alert('Invite successfully');
+      this.setState({ memberName: '', showInvite: false });
+    }).catch(err => console.log(err.response.data));
   }
 
   render() {
@@ -45,15 +55,22 @@ class Header extends Component {
 
         <Modal show={this.state.showInvite} onHide={this.handleCloseInvite}>
           <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>Invite Member</Modal.Title>
           </Modal.Header>
-          <Modal.Body>Woohoo, reading this text in a modal!</Modal.Body>
+          <Modal.Body>
+            <Form inline>
+              <Form.Group controlId="">
+                <Form.Label>Username</Form.Label>
+                <Form.Control className="ml-4" type="text" placeholder="Enter username" onChange={ev => this.setState({ memberName: ev.target.value })} />
+              </Form.Group>
+            </Form>
+          </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={this.handleCloseInvite}>
               Close
             </Button>
-            <Button variant="primary" onClick={this.handleCloseInvite}>
-              Save Changes
+            <Button variant="primary" onClick={this.handleInviteMember}>
+            Invite
             </Button>
           </Modal.Footer>
         </Modal>
